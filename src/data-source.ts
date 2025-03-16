@@ -1,6 +1,5 @@
 import { DataSource } from 'typeorm';
-import { User } from 'src/Core/Entity/user.entity';
-import { Issue } from './Core/Entity/issue.entity';
+import { Product } from './Core/Entity/product.entity';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -8,8 +7,8 @@ export const AppDataSource = new DataSource({
   port: 3306,
   username: 'root',
   password: '',
-  database: 'nest',
-  entities: [User,Issue],
+  database: 'co-website',
+  entities: [Product],
   migrations: ['src/migrations/*.ts'],
   synchronize: false,
 });

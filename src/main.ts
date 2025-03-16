@@ -2,7 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { config } from 'dotenv';
-
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
+import * as express from 'express';
 
 config(); 
 
@@ -14,18 +16,19 @@ async function bootstrap() {
     .setTitle('My API')
     .setDescription('API documentation for my NestJS project')
     .setVersion('1.0')
-    .addBearerAuth() // Enables JWT authentication in Swagger (optional)
+    .addBearerAuth() 
     .build();
 
-app.enableCors({
-    origin: '*', // Allow all origins (not recommended for production)
+app.use('/uploads', express.static(join(__dirname, '..', 'uploads')))
+;app.enableCors({
+    origin: '*', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Accept, Authorization',
   });
-
+/
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document); // Swagger UI available at /api/docs
+  SwaggerModule.setup('api/docs', app, document); 
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

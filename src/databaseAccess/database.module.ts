@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/auth/auth.module';
-import { GitHubStrategy } from 'src/auth/github.strategy';
-import { Issue } from 'src/Core/Entity/issue.entity';
-import { User } from 'src/Core/Entity/user.entity';
+import { Product } from 'src/Core/Entity/product.entity';
 
 @Module({
   imports: [
@@ -14,17 +11,15 @@ import { User } from 'src/Core/Entity/user.entity';
         port: 3306,
         username: 'root',
         password: '',
-        database: 'nest',
-        entities: [User,Issue],
+        database: 'co-website',
+        entities: [Product],
         synchronize: true, // Disable in production
         migrationsRun: true, // Run migrations automatically
       }),
     }),
- TypeOrmModule.forFeature([User]), // Add this line
-    AuthModule, // Ensure that AuthModule is imported as well
+
 
   ],
-  providers: [GitHubStrategy],
   
 
 })
