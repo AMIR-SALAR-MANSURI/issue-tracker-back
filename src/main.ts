@@ -19,13 +19,13 @@ async function bootstrap() {
     .addBearerAuth() 
     .build();
 
-app.use('/uploads', express.static(join(__dirname, '..', 'uploads')))
-;app.enableCors({
+app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
+app.enableCors({
     origin: '*', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Accept, Authorization',
   });
-/
+
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document); 

@@ -27,10 +27,9 @@ export class ProductService {
     // Save the file path instead of the buffer
     const filePath = `uploads/${file.filename}`;
 
-    // Create and save the product
     const product = this.productRepository.create({
       ...createProductDto,
-      imageName: filePath, // Store file path
+      imageName: filePath, 
     });
 
     return await this.productRepository.save(product);
@@ -77,7 +76,7 @@ export class ProductService {
       id: product.id,
       title: product.title,
       imageName: product.imageName, 
-      imageUrl: product.imageName ? `/uploads/${product.imageName}` : null, 
+      imageUrl: product.imageName ? `${product.imageName}` : null, 
     }));
 
     return {

@@ -38,7 +38,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Create a new product' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({ description: 'Product data with image', type: CreateProductDto })
-  @UseInterceptors(FileInterceptor('image', multerOptions)) // Match the field name
+  @UseInterceptors(FileInterceptor('imageUrl', multerOptions)) // Match the field name
   @ApiResponse({ status: 201, description: 'Product created successfully.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   async create(
