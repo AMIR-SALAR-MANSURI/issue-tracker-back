@@ -1,21 +1,22 @@
 import {
-    Body,
-    Controller,
-    DefaultValuePipe,
-    Delete,
-    Get,
-    NotFoundException,
-    Param,
-    ParseIntPipe,
-    Patch,
-    Post,
-    Query,
-    UseGuards
+  Body,
+  Controller,
+  DefaultValuePipe,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { promises } from 'dns';
 import { IssueService } from 'src/Application/issues/isuues.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { GitHubStrategy } from 'src/auth/github.strategy';
 import { AssignIssueDto } from 'src/Core/DTO/asiign-issue.dto';
 import { CreateIssueDto } from 'src/Core/DTO/create-issue.dto';
 import { UpdateIssueDto } from 'src/Core/DTO/update-issue.dto';
@@ -25,29 +26,37 @@ import { Issue } from 'src/Core/Entity/issue.entity';
 export class IssueController {
   constructor(private readonly IssueService: IssueService) {}
 
-  @Post("create")
-  // @ApiBearerAuth()
-  //  @UseGuards(JwtAuthGuard)
+  @Post('create')
   async create(@Body() createIssueDto: CreateIssueDto): Promise<Issue> {
     return await this.IssueService.create(createIssueDto);
   }
 
-@Get()
-@ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number (default: 1)' })
-  @ApiQuery({ name: 'limit', required: false, example: 5, description: 'Number of items per page (default: 5)' })
+  @Get()
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    example: 1,
+    description: 'Page number (default: 1)',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    example: 5,
+    description: 'Number of items per page (default: 5)',
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-    @Query('limit', new DefaultValuePipe(5), ParseIntPipe) limit: number
+    @Query('limit', new DefaultValuePipe(5), ParseIntPipe) limit: number,
   ) {
     return this.IssueService.findAll(page, limit);
   }
 
-
-
-   @Post('/assign')
+  @Post('/assign')
   async assignIssueToUser(
     // @Param('issueId') issueId: number,
-    @Body()body:AssignIssueDto
+    @Body() body: AssignIssueDto,
   ): Promise<Issue> {
     try {
       return await this.IssueService.assignIssueToUser(body);
@@ -59,7 +68,7 @@ export class IssueController {
     }
   }
 
-    @Get('user/:userId')
+  @Get('user/:userId')
   async getIssuesByUser(@Param('userId') userId: string): Promise<Issue[]> {
     try {
       return await this.IssueService.getIssuesByUser(userId);
@@ -69,10 +78,9 @@ export class IssueController {
       }
       throw error;
     }
-    
   }
 
-      @Get('/:issueId')
+  @Get('/:issueId')
   async getIssueById(@Param('issueId') issueId: number): Promise<Issue[]> {
     try {
       return await this.IssueService.getIssueById(issueId);
@@ -82,30 +90,27 @@ export class IssueController {
       }
       throw error;
     }
-    
   }
 
   @Patch('edit/:id')
   async update(
-    @Param('id',ParseIntPipe)id:number,
-    @Body()updateIssue:UpdateIssueDto,
-
-  ):Promise<Issue |any>{
-    const updatedIssue = await this.IssueService.update(updateIssue,id);
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateIssue: UpdateIssueDto,
+  ): Promise<Issue | any> {
+    const updatedIssue = await this.IssueService.update(updateIssue, id);
 
     if (!updatedIssue) {
       throw new NotFoundException(`Issue with ID ${id} not found.`);
     }
-  return updatedIssue
+    return updatedIssue;
   }
-
 
   @Delete('delete/:id')
-  async delete(@Param('id',ParseIntPipe)id:number):Promise<{message:string}>{
-    return await this.IssueService.deleteIssue(id)
+  async delete(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<{ message: string }> {
+    return await this.IssueService.deleteIssue(id);
   }
-
-  
 
   //     @Patch(':id')
   // async assinedUser(@Param('id') id: number): Promise<Issue> {
@@ -116,8 +121,8 @@ export class IssueController {
   //   return await this.usersService.findAll();
   // }
 
-//   @Get(':id')
-//   async findOne(@Param('id') id: number): Promise<User> {
-//     return await this.usersService.findOne(+id);
-//   }
+  //   @Get(':id')
+  //   async findOne(@Param('id') id: number): Promise<User> {
+  //     return await this.usersService.findOne(+id);
+  //   }
 }

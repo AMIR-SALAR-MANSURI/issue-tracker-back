@@ -10,6 +10,7 @@ import { UsersService } from 'src/Application/user/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/Core/Entity/user.entity';
 import { JwtAuthGuard } from './auth.guard';
+import { Account } from 'src/Core/Entity/account.entity';
 
 @Module({
   imports: [
@@ -23,10 +24,10 @@ import { JwtAuthGuard } from './auth.guard';
         signOptions: { expiresIn: '1h' },
       }),
     }),
-    TypeOrmModule.forFeature([User]), // Add this line to register UserRepository
+    TypeOrmModule.forFeature([User]),
   ],
-  providers: [AuthService, GitHubStrategy, JwtAuthGuard], // Add UsersService to providers
-  exports: [AuthService, JwtAuthGuard],  // Ensure AuthService is exported
+  providers: [AuthService, GitHubStrategy, JwtAuthGuard],
+  exports: [AuthService, JwtAuthGuard],
   controllers: [AuthController],
 })
 export class AuthModule {}

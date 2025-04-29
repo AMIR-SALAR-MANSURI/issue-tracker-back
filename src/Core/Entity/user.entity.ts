@@ -1,5 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { Issue } from './issue.entity';
+import { Account } from './account.entity';
+import { Session } from './sesssion.entity';
 
 @Entity()
 export class User {
@@ -24,6 +32,12 @@ export class User {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany(() => Issue, issue => issue.assignedUser)
+  @OneToMany(() => Issue, (issue) => issue.assignedUser)
   issues: Issue[];
+
+  @OneToMany(() => Account, (account) => account.user)
+  accounts: Account[];
+
+  @OneToMany(() => Session, (session) => session.user)
+  sessions: Session[];
 }

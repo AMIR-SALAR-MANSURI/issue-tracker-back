@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { User } from 'src/Core/Entity/user.entity';
@@ -15,11 +15,17 @@ export class AuthController {
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
-  async githubLoginCallback(@Req() req) {
-    return this.authService.login(req.user);
-  }
+  async githubLoginCallback(@Req() req, @Res() res) {
+    const result = await this.authService.login(req.user);
+    const frontendUrl = `http://localhost:3001/auth/callback?token=${result.access_token}&user=${encodeURIComponent(
+      JSON.stringify(result.user),
+    )}`;
 
-   @Get('users')
+    console.log(result.access_token);
+
+    return res.redirect(frontendUrl); // Redirect to your Next.js app with token
+  }
+  @Get('users')
   async findAll(): Promise<User[]> {
     return this.authService.findAll();
   }
