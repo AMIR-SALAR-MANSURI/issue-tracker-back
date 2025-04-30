@@ -6,7 +6,6 @@ import { AuthController } from './auth.controller';
 import { GitHubStrategy } from './github.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseAccess } from 'src/databaseAccess/database.module';
-import { UsersService } from 'src/Application/user/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/Core/Entity/user.entity';
 import { JwtAuthGuard } from './auth.guard';
