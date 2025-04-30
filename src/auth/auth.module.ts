@@ -14,7 +14,7 @@ import { Account } from 'src/Core/Entity/account.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    PassportModule.register({ defaultStrategy: 'github' }),
+    PassportModule.register({ defaultStrategy: 'githubaa' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
