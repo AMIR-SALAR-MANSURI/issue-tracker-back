@@ -1,18 +1,26 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-<<<<<<< HEAD
 import { AuthModule } from 'src/auth/auth.module';
 import { GitHubStrategy } from 'src/auth/github.strategy';
 import { Account } from 'src/Core/Entity/account.entity';
 import { Issue } from 'src/Core/Entity/issue.entity';
 import { Session } from 'src/Core/Entity/sesssion.entity';
 import { User } from 'src/Core/Entity/user.entity';
-=======
-import { Product } from 'src/Core/Entity/product.entity';
->>>>>>> 91ba71987149fcba486f2abf9e1a87350177615e
 
 @Module({
   imports: [
+    // TypeOrmModule.forRoot({
+    //   type: 'postgres',
+    //   host: 'localhost', // or use 'db' if inside docker-compose network
+    //   port: 5432,
+    //   username: 'postgres',
+    //   password: 'pass123',
+    //   database: 'postgres',
+    //   autoLoadEntities: true,
+    //   entities: [User, Issue, Account, Session],
+
+    //   synchronize: true,
+    // }),
     // TypeOrmModule.forRootAsync({
     //   useFactory: async () => ({
     //     type: 'mysql',
@@ -27,13 +35,12 @@ import { Product } from 'src/Core/Entity/product.entity';
     //   }),
     // }),
 
-       TypeOrmModule.forRootAsync({
+    TypeOrmModule.forRootAsync({
       useFactory: async () => ({
         type: 'mysql',
-        host:'localhost',
+        host: 'localhost',
         port: 3306,
         username: 'root',
-<<<<<<< HEAD
         password: '',
         database: 'nest',
         entities: [User, Issue, Account, Session],
@@ -45,19 +52,5 @@ import { Product } from 'src/Core/Entity/product.entity';
     AuthModule, // Ensure that AuthModule is imported as well
   ],
   providers: [GitHubStrategy],
-=======
-        password:  '',
-        database: 'co-website',
-        entities: [Product],
-        synchronize: true, // Disable in production
-        migrationsRun: true, // Run migrations automatically
-      }),
-    }),
-
-
-  ],
-  
-
->>>>>>> 91ba71987149fcba486f2abf9e1a87350177615e
 })
 export class DatabaseAccess {}

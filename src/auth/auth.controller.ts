@@ -9,9 +9,7 @@ export class AuthController {
 
   @Get('github')
   @UseGuards(AuthGuard('github'))
-  async githubLogin() {
-    // Redirects to GitHub OAuth login
-  }
+  async githubLogin() {}
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
@@ -23,7 +21,7 @@ export class AuthController {
 
     console.log(result.access_token);
 
-    return res.redirect(frontendUrl); // Redirect to your Next.js app with token
+    return res.redirect(frontendUrl);
   }
   @Get('users')
   async findAll(): Promise<User[]> {

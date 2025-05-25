@@ -1,20 +1,18 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { GitHubStrategy } from './github.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseAccess } from 'src/databaseAccess/database.module';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/Core/Entity/user.entity';
+import { AuthController } from './auth.controller';
 import { JwtAuthGuard } from './auth.guard';
-import { Account } from 'src/Core/Entity/account.entity';
+import { AuthService } from './auth.service';
+import { GitHubStrategy } from './github.strategy';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    PassportModule.register({ defaultStrategy: 'githubaa' }),
+    PassportModule.register({ defaultStrategy: 'github' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

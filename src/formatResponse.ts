@@ -1,13 +1,14 @@
-export function formatResponse<T>(
-  data: T,
-  success = true,
-  message: string = 'Request successful',
-  extra?: Record<string, any>, // Allows additional properties dynamically
-) {
+// src/common/utils/response.util.ts
+export const customResponse = (
+  data: any,
+  message = 'Success',
+  status = true,
+  extra: Record<string, any> = {},
+) => {
   return {
-    success,
+    status,
     message,
     data,
-    ...extra, 
+    ...extra, // This lets you include page, limit, totalPages, etc. outside data
   };
-}
+};

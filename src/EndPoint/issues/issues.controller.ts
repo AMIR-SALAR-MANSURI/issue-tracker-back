@@ -14,10 +14,9 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { promises } from 'dns';
-import { IssueService } from 'src/Application/issues/isuues.service';
+import { IssueService } from 'src/Application/issues/issues.service';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
-import { GitHubStrategy } from 'src/auth/github.strategy';
-import { AssignIssueDto } from 'src/Core/DTO/asiign-issue.dto';
+import { AssignIssueDto } from 'src/Core/DTO/assign-issue.dto';
 import { CreateIssueDto } from 'src/Core/DTO/create-issue.dto';
 import { UpdateIssueDto } from 'src/Core/DTO/update-issue.dto';
 import { Issue } from 'src/Core/Entity/issue.entity';
@@ -27,6 +26,8 @@ export class IssueController {
   constructor(private readonly IssueService: IssueService) {}
 
   @Post('create')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   async create(@Body() createIssueDto: CreateIssueDto): Promise<Issue> {
     return await this.IssueService.create(createIssueDto);
   }
