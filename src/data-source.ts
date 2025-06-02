@@ -3,6 +3,9 @@ import { User } from 'src/Core/Entity/user.entity';
 import { Issue } from './Core/Entity/issue.entity';
 import { Session } from 'inspector/promises';
 import { Account } from './Core/Entity/account.entity';
+import * as dotenv from 'dotenv';
+
+dotenv.config(); // to load from .env
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -11,7 +14,7 @@ export const AppDataSource = new DataSource({
   username: 'root',
   password: '',
   database: 'nest',
-  entities: [User, Issue, Session, Account],
+  entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
-  synchronize: true,
+  synchronize: false,
 });

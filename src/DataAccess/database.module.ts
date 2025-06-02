@@ -46,6 +46,7 @@ import { User } from 'src/Core/Entity/user.entity';
         entities: [User, Issue, Account, Session],
         synchronize: true,
         migrationsRun: true,
+        migrations: ['src/migrations/*.ts'],
       }),
     }),
     TypeOrmModule.forFeature([User]), // Add this line
