@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { GitHubStrategy } from 'src/auth/github.strategy';
 import { Account } from 'src/Core/Entity/account.entity';
+import { Chat } from 'src/Core/Entity/chat.entity';
 import { Issue } from 'src/Core/Entity/issue.entity';
 import { Session } from 'src/Core/Entity/sesssion.entity';
 import { User } from 'src/Core/Entity/user.entity';
@@ -43,9 +44,9 @@ import { User } from 'src/Core/Entity/user.entity';
         username: 'root',
         password: '',
         database: 'nest',
-        entities: [User, Issue, Account, Session],
+        entities: [User, Issue, Account, Session, Chat],
         synchronize: true,
-        migrationsRun: true,
+        migrationsRun: false,
         migrations: ['src/migrations/*.ts'],
       }),
     }),
