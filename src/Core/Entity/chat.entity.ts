@@ -4,22 +4,21 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  ManyToOne,
+  OneToMany,
 } from 'typeorm';
+import { Message } from './message.entity';
 
 @Entity()
 export class Chat {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  role: 'user' | 'assistant';
-
-  @Column('text')
-  content: string;
-
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column()
-  conversationId: string;
+  @OneToMany(() => Message, (message) => message.chat, {
+    cascade: true,
+  })
+  message: Message[];
 }

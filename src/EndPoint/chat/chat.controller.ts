@@ -10,6 +10,7 @@ import {
 import { ChatService } from 'src/Application/chats/chat.service';
 import { CreateChatDto } from 'src/Core/DTO/chat.dto';
 import { Chat } from 'src/Core/Entity/chat.entity';
+import { Message } from 'src/Core/Entity/message.entity';
 
 @Controller('chat')
 export class ChatController {
@@ -24,11 +25,10 @@ export class ChatController {
   async history() {
     return await this.chatService.getHistory();
   }
-
   @Post('/create')
   async chat(
     @Body() body: CreateChatDto,
-  ): Promise<{ conversationId: string; messages: Chat[] }> {
-    return await this.chatService.createChat(body);
+  ): Promise<{ conversationId: number; messages: Message[] }> {
+    return this.chatService.createChat(body);
   }
 }

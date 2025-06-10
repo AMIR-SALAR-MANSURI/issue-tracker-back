@@ -5,6 +5,7 @@ import { GitHubStrategy } from 'src/auth/github.strategy';
 import { Account } from 'src/Core/Entity/account.entity';
 import { Chat } from 'src/Core/Entity/chat.entity';
 import { Issue } from 'src/Core/Entity/issue.entity';
+import { Message } from 'src/Core/Entity/message.entity';
 import { Session } from 'src/Core/Entity/sesssion.entity';
 import { User } from 'src/Core/Entity/user.entity';
 
@@ -44,7 +45,7 @@ import { User } from 'src/Core/Entity/user.entity';
         username: 'root',
         password: '',
         database: 'nest',
-        entities: [User, Issue, Account, Session, Chat],
+        entities: [User, Issue, Account, Session, Chat, Message],
         synchronize: true,
         migrationsRun: false,
         migrations: ['src/migrations/*.ts'],
