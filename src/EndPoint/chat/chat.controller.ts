@@ -6,6 +6,7 @@ import {
   Body,
   BadRequestException,
   NotFoundException,
+  Param,
 } from '@nestjs/common';
 import { ChatService } from 'src/Application/chats/chat.service';
 import { CreateChatDto } from 'src/Core/DTO/chat.dto';
@@ -28,7 +29,12 @@ export class ChatController {
   @Post('/create')
   async chat(
     @Body() body: CreateChatDto,
-  ): Promise<{ conversationId: number; messages: Message[] }> {
+  ): Promise<{ conversationId: string; messages: Message[] }> {
     return this.chatService.createChat(body);
+  }
+
+  @Get('/getConvers/:id')
+  async getChat(@Param('id') id: string): Promise<{ id: string }> {
+    return this.chatService.getConver(id);
   }
 }

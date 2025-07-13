@@ -1,16 +1,28 @@
-version: '3'
+version: '3.8'
 
 services:
-  db:
-    image: postgres
-    restart: always
+  minio:
+    image: minio/minio
     ports:
-      - "5432:5432"
+      - '9000:9000'
+      - '9001:9001'
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: pass123
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MINIO_ENDPOINT=minio
+      - MINIO_PORT=9000
+      - MINIO_USE_SSL=false
+    depends_on:
+      - minio
 
 volumes:
-  pgdata:
+  minio_data:

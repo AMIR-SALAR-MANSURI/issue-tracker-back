@@ -6,19 +6,24 @@ import {
   CreateDateColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Message } from './message.entity';
 
 @Entity()
 export class Chat {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany(() => Message, (message) => message.chat, {
-    cascade: true,
-  })
-  message: Message[];
+  // @ManyToOne(() => Message, (message) => message.chatId, {
+  //   onDelete: 'CASCADE',
+  // })
+  // @JoinColumn({ name: 'chatId' })
+  // messages: Message;
+
+  @OneToMany(() => Message, (message) => message.chat)
+  messages: Message[];
 }

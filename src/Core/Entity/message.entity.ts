@@ -12,8 +12,8 @@ import { Chat } from './chat.entity';
 
 @Entity()
 export class Message {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   role: 'user' | 'assistant';
@@ -24,6 +24,10 @@ export class Message {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => Chat, (chat) => chat.message, { onDelete: 'CASCADE' })
-  chat: Chat;
+  @ManyToOne(() => Chat, (chat) => chat.messages)
+  @JoinColumn({ name: 'chatId' })
+  chat: Chat; // chat: Chat[]
+
+  @Column({ nullable: true })
+  chatId: string;
 }

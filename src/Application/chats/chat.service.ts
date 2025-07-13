@@ -25,7 +25,7 @@ export class ChatService {
 
   async createChat(
     dto: CreateChatDto,
-  ): Promise<{ conversationId: number; messages: Message[] }> {
+  ): Promise<{ conversationId: string; messages: Message[] }> {
     let chat: Chat | null = null;
 
     // 1. Find existing chat or create a new one
@@ -80,5 +80,16 @@ export class ChatService {
     return this.chatRepo.find({
       order: { createdAt: 'ASC' },
     });
+  }
+
+  async getConver(id: string): Promise<Chat> {
+    const chat = await this.chatRepo.findOne({
+      where: { id },
+      relations: ['messages'],
+    });
+    if (!chat) {
+      throw new Error(`Chat with ID ${id} not found`);
+    }
+    return chat;
   }
 }
